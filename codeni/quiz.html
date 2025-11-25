@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .question { margin-bottom: 20px; }
+    .options label { display: block; margin: 4px 0; cursor: pointer; }
+    #result { font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Simple Quiz</h1>
+
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">Submit</button>
+  <p id="result"></p>
+
+  <script>
+    const questions = [
+      "1. What is the size of a Java int?",
+      "2. Which language is used for Android app development?",
+      "3. What does CPU stand for?",
+      "4. Which of the following is not a primitive type?",
+      "5. Which keyword is used to create an object in Java?"
+    ];
+
+    const options = [
+      ["A) 8 BITS", "B) 16 BITS", "C) 32 BITS"],
+      ["A) PYTHON", "B) JAVA", "C) HTML"],
+      ["A) CENTRAL PROCESSING UNIT", "B) CENTRAL PROCESSOR UNIT", "C) CENTRAL RIZAL"],
+      ["A) INT", "B) BOOLEAN", "C) STRING"],
+      ["A) MAKE", "B) NEW", "C) CREATE"]
+    ];
+
+    const answers = ['C', 'B', 'A', 'C', 'B'];
+
+    const quizDiv = document.getElementById("quiz");
+
+    questions.forEach((q, i) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+      qDiv.innerHTML = `<p>${q}</p>`;
+
+      const opts = document.createElement("div");
+      opts.className = "options";
+
+      options[i].forEach((opt, j) => {
+        const letter = String.fromCharCode(65 + j);
+        opts.innerHTML += `
+          <label>
+            <input type="radio" name="q${i}" value="${letter}"> ${opt}
+          </label>`;
+      });
+
+      qDiv.appendChild(opts);
+      quizDiv.appendChild(qDiv);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+
+      questions.forEach((_, i) => {
+        const selected = document.querySelector(`input[name='q${i}']:checked`);
+        if (selected && selected.value === answers[i]) score++;
+      });
+
+      document.getElementById("result").innerText = `Your score: ${score} / ${questions.length}`;
+    }
+  </script>
+</body>
+</html>
